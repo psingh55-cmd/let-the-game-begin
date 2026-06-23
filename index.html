@@ -1,76 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Do You Love Me, Pragya? ❤️</title>
+<title>Do You Love Me, Pragya My Bare Minimum? ❤️</title>
 
 <style>
-body{
-    margin:0;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#ffd1ff,#ffdde1);
-    background-size:400% 400%;
-    animation:bg 10s ease infinite;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-@keyframes bg{
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+body{
+height:100vh;
+overflow:hidden;
+font-family:Arial, sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:linear-gradient(-45deg,#ff758c,#ff7eb3,#ffb6c1,#ffd1dc);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
 h1{
-    text-align:center;
-    color:#fff;
-    text-shadow:2px 2px 8px rgba(0,0,0,0.2);
-}
-
-.buttons{
-    margin-top:20px;
+color:white;
+font-size:3rem;
+text-align:center;
+padding:20px;
+text-shadow:2px 2px 10px rgba(0,0,0,.3);
 }
 
 button{
-    border:none;
-    padding:15px 30px;
-    margin:10px;
-    border-radius:12px;
-    cursor:pointer;
-    font-size:20px;
+border:none;
+padding:15px 35px;
+font-size:22px;
+border-radius:15px;
+cursor:pointer;
+transition:0.3s;
 }
 
 #yesBtn{
-    background:#28a745;
-    color:white;
+background:#28a745;
+color:white;
+margin-right:10px;
 }
 
 #noBtn{
-    background:#dc3545;
-    color:white;
-    position:absolute;
+background:#dc3545;
+color:white;
+position:absolute;
 }
 
 .heart{
-    position:absolute;
-    color:white;
-    animation:float 8s linear infinite;
-    opacity:0.7;
+position:absolute;
+bottom:-50px;
+font-size:30px;
+animation:floatUp linear infinite;
+pointer-events:none;
 }
 
-@keyframes float{
-    from{
-        transform:translateY(100vh);
-    }
-    to{
-        transform:translateY(-100px);
-    }
+@keyframes floatUp{
+from{
+transform:translateY(0);
+opacity:1;
+}
+to{
+transform:translateY(-120vh);
+opacity:0;
+}
 }
 </style>
 </head>
@@ -79,14 +85,13 @@ button{
 
 <h1 id="question">Do you love me? ❤️</h1>
 
-<div class="buttons">
-    <button id="yesBtn">Yes ❤️</button>
+<div>
+<button id="yesBtn">Yes ❤️</button>
+<button id="noBtn">No 💔</button>
 </div>
 
-<button id="noBtn">No 💔</button>
-
 <audio id="bgMusic" loop>
-    <source src="song.mp3" type="audio/mpeg">
+<source src="./song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -94,88 +99,108 @@ button{
 const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
 const question=document.getElementById("question");
-const music=document.getElementById("bgMusic");
+const bgMusic=document.getElementById("bgMusic");
 
 const messages=[
 "Are you sure? 🥺",
 "Really sure? 😭",
 "Think again ❤️",
 "Please? 🥹",
-"I bought flowers 🌹",
-"My heart is breaking 💔",
+"Don't break my heart 💔",
+"Pretty please? 🌹",
 "Last chance 😭",
-"You can't escape 😂"
+"Why are you doing this? 😂",
+"You cannot escape ❤️"
 ];
 
 let count=0;
-let size=20;
+let yesSize=22;
 
-document.body.addEventListener("click",()=>{
-    music.play().catch(()=>{});
+document.addEventListener("click",function(){
+
+bgMusic.play()
+.then(()=>console.log("music playing"))
+.catch(err=>console.log(err));
+
 },{once:true});
 
-function moveNoButton(){
-    const x=Math.random()*(window.innerWidth-120);
-    const y=Math.random()*(window.innerHeight-80);
-    noBtn.style.left=x+"px";
-    noBtn.style.top=y+"px";
+function moveButton(){
+
+const maxX=window.innerWidth-150;
+const maxY=window.innerHeight-100;
+
+const x=Math.random()*maxX;
+const y=Math.random()*maxY;
+
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
 }
 
-moveNoButton();
+moveButton();
 
-noBtn.addEventListener("mouseover",moveNoButton);
-noBtn.addEventListener("click",moveNoButton);
+noBtn.addEventListener("mouseover",moveButton);
 
-noBtn.addEventListener("click",()=>{
+noBtn.addEventListener("click",function(){
 
-    if(count<messages.length){
-        question.innerText=messages[count];
-    }
+if(count<messages.length){
+question.innerHTML=messages[count];
+}
 
-    size+=12;
-    yesBtn.style.fontSize=size+"px";
+yesSize+=10;
+yesBtn.style.fontSize=yesSize+"px";
 
-    count++;
+count++;
+moveButton();
+
 });
 
-yesBtn.addEventListener("click",()=>{
+yesBtn.addEventListener("click",function(){
 
 document.body.innerHTML=`
-<div style="text-align:center">
-<h1 style="font-size:60px;color:white">
-🎉 YAYYYYYY ❤️ 🎉
-</h1>
-
-<h2 style="color:white">
+<div style="text-align:center;">
+<h1 style="font-size:70px;">🎉❤️ YAYYYY ❤️🎉</h1>
+<h2 style="color:white;font-size:35px;">
 I knew you'd say YES 🥰
 </h2>
-
-<h2 style="color:white">
+<h2 style="color:white;margin-top:20px;">
 ❤️ Forever Starts Today ❤️
 </h2>
 </div>
 `;
 
-for(let i=0;i<100;i++){
+for(let i=0;i<150;i++){
+
 let heart=document.createElement("div");
 heart.innerHTML="❤️";
 heart.className="heart";
+
 heart.style.left=Math.random()*100+"vw";
 heart.style.fontSize=(20+Math.random()*40)+"px";
 heart.style.animationDuration=(3+Math.random()*5)+"s";
+
 document.body.appendChild(heart);
 }
 });
 
-for(let i=0;i<30;i++){
-let heart=document.createElement("div");
+function createHeart(){
+
+const heart=document.createElement("div");
+
+heart.classList.add("heart");
 heart.innerHTML="❤️";
-heart.className="heart";
+
 heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(15+Math.random()*25)+"px";
-heart.style.animationDuration=(5+Math.random()*5)+"s";
+heart.style.fontSize=(20+Math.random()*30)+"px";
+heart.style.animationDuration=(4+Math.random()*6)+"s";
+
 document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},10000);
 }
+
+setInterval(createHeart,400);
 
 </script>
 
