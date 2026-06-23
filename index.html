@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Do You Love Me? ❤️</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#ffd1ff,#ffdde1);
+    background-size:400% 400%;
+    animation:bg 10s ease infinite;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+h1{
+    text-align:center;
+    color:#fff;
+    text-shadow:2px 2px 8px rgba(0,0,0,0.2);
+}
+
+.buttons{
+    margin-top:20px;
+}
+
+button{
+    border:none;
+    padding:15px 30px;
+    margin:10px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+#yesBtn{
+    background:#28a745;
+    color:white;
+}
+
+#noBtn{
+    background:#dc3545;
+    color:white;
+    position:absolute;
+}
+
+.heart{
+    position:absolute;
+    color:white;
+    animation:float 8s linear infinite;
+    opacity:0.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+    }
+    to{
+        transform:translateY(-100px);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="question">Do you love me? ❤️</h1>
+
+<div class="buttons">
+    <button id="yesBtn">Yes ❤️</button>
+</div>
+
+<button id="noBtn">No 💔</button>
+
+<audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const question=document.getElementById("question");
+const music=document.getElementById("bgMusic");
+
+const messages=[
+"Are you sure? 🥺",
+"Really sure? 😭",
+"Think again ❤️",
+"Please? 🥹",
+"I bought flowers 🌹",
+"My heart is breaking 💔",
+"Last chance 😭",
+"You can't escape 😂"
+];
+
+let count=0;
+let size=20;
+
+document.body.addEventListener("click",()=>{
+    music.play().catch(()=>{});
+},{once:true});
+
+function moveNoButton(){
+    const x=Math.random()*(window.innerWidth-120);
+    const y=Math.random()*(window.innerHeight-80);
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+}
+
+moveNoButton();
+
+noBtn.addEventListener("mouseover",moveNoButton);
+noBtn.addEventListener("click",moveNoButton);
+
+noBtn.addEventListener("click",()=>{
+
+    if(count<messages.length){
+        question.innerText=messages[count];
+    }
+
+    size+=12;
+    yesBtn.style.fontSize=size+"px";
+
+    count++;
+});
+
+yesBtn.addEventListener("click",()=>{
+
+document.body.innerHTML=`
+<div style="text-align:center">
+<h1 style="font-size:60px;color:white">
+🎉 YAYYYYYY ❤️ 🎉
+</h1>
+
+<h2 style="color:white">
+I knew you'd say YES 🥰
+</h2>
+
+<h2 style="color:white">
+❤️ Forever Starts Today ❤️
+</h2>
+</div>
+`;
+
+for(let i=0;i<100;i++){
+let heart=document.createElement("div");
+heart.innerHTML="❤️";
+heart.className="heart";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*40)+"px";
+heart.style.animationDuration=(3+Math.random()*5)+"s";
+document.body.appendChild(heart);
+}
+});
+
+for(let i=0;i<30;i++){
+let heart=document.createElement("div");
+heart.innerHTML="❤️";
+heart.className="heart";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(15+Math.random()*25)+"px";
+heart.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(heart);
+}
+
+</script>
+
+</body>
+</html>
